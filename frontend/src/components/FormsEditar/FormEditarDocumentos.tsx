@@ -1,9 +1,12 @@
-import React, { useContext } from 'react';
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import React, { useContext, useState } from 'react';
+import { Button, Col, Container, Row, Table } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { DocumentoContext } from '../../context/DocumentoContext';
 import { ClienteContext } from '../../context/ClienteContext';
+import { handleDescarga } from '../../helpers/handleDescarga';
+import { Documento } from '../../types/Documento';
+import { documentosService } from '../../services/documentos.service';
 
 type FormValues = {
   documentos: {
@@ -15,8 +18,9 @@ type FormValues = {
 export const FormEditarDocumentos = () => {
   const navigate = useNavigate();
 
-  const { documentos } = useContext(DocumentoContext);
   const { cliente } = useContext(ClienteContext);
+
+  const [documentos, setDocumentos] = useState(cliente.documentos);
 
   const {
     register,
@@ -36,26 +40,82 @@ export const FormEditarDocumentos = () => {
   });
 
   const onSubmit = async (data: FormValues) => {
+    await documentosService.crearVarios(data.documentos, cliente.id!);
     navigate('/');
+  };
+
+  const eliminarDocumento = async (documento: Documento) => {
+    await documentosService.eliminar(cliente.id!, documento.id!);
+    setDocumentos(documentos?.filter((item) => item.id !== documento.id));
   };
 
   return (
     <Container className="mt-5">
-      <div className="d-flex justify-content-between mb-5">
+      <div className="d-flex justify-content-between mb-4">
         <h2>Editar documentos</h2>
-
-        <Button
-          type="button"
-          onClick={() =>
-            append({
-              nombre: '',
-              file: null,
-            })
-          }
-        >
-          Agregar Nuevo
-        </Button>
       </div>
+
+      <Row className="mt-3">
+        <Col>
+          <h4>Documentos actuales</h4>
+        </Col>
+      </Row>
+      <Row className="mt-3">
+        <Col>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Documento</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {documentos?.map((documento) => (
+                <tr key={documento.id}>
+                  <td>{documento.id}</td>
+                  <td>{documento.nombre}</td>
+                  <td>
+                    <Button
+                      variant="link"
+                      onClick={() => handleDescarga(documento)}
+                    >
+                      {documento.ruta.replace(/^.*[\\\/]/, '')}
+                    </Button>
+                  </td>
+                  <td>
+                    <Button
+                      variant="danger"
+                      type="button"
+                      onClick={() => eliminarDocumento(documento)}
+                    >
+                      Eliminar
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </Col>
+      </Row>
+
+      <Row className="mt-5">
+        <div className="d-flex justify-content-between mb-4">
+          <h4>Nuevos documentos</h4>
+          <Button
+            type="button"
+            onClick={() =>
+              append({
+                nombre: '',
+                file: null,
+              })
+            }
+          >
+            Agregar Nuevo
+          </Button>
+        </div>
+      </Row>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         {fields.map((field, index) => {
@@ -103,7 +163,7 @@ export const FormEditarDocumentos = () => {
         })}
 
         <Button variant="primary mt-3 me-3" type="submit">
-          Actualizar cliente
+          Actualizar
         </Button>
       </form>
     </Container>

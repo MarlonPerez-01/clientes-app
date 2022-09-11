@@ -22,6 +22,13 @@ const crearVarios = async (
   );
 };
 
+const eliminar = async (clienteId: number, documentoId: number) => {
+  return await clienteAxios.delete(
+    `clientes/${clienteId}/documentos/${documentoId}`,
+  );
+};
+
 export const documentosService = {
   crearVarios,
+  eliminar,
 };

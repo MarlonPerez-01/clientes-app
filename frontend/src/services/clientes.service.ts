@@ -1,7 +1,7 @@
 import { clienteAxios } from '../config/axios';
 import { CrearClienteDto } from '../types/CrearClienteDto';
 
-const obtener = async (page: number) => {
+const obtener = async (page: number = 1) => {
   return clienteAxios.get(`clientes?page=${page}`);
 };
 

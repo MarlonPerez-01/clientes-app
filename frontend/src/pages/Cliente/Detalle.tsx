@@ -1,12 +1,12 @@
 import { Link, useParams } from 'react-router-dom';
 import { CustomNavBar } from '../../components/Common/CustomNavBar';
 import { Button, Col, Container, Row, Table } from 'react-bootstrap';
-import React, { useContext, useEffect, useState } from 'react';
-import { ClienteContext } from '../../context/ClienteContext';
+import React, { useEffect, useState } from 'react';
+
 import { clientesService } from '../../services/clientes.service';
 import { Cliente } from '../../types/Cliente';
 
-import { clienteAxios } from '../../config/axios';
+import { handleDescarga } from '../../helpers/handleDescarga';
 
 export const Detalle: React.FC = () => {
   const { clienteId } = useParams();
@@ -34,25 +34,6 @@ export const Detalle: React.FC = () => {
       setDocumentos(data.data.documentos);
     })();
   }, [clienteId]);
-
-  const handleDescarga = async (documento: any) => {
-    const nombreArchivo = documento.ruta.replace(/^.*[\\\/]/, '');
-
-    return clienteAxios({
-      url: `local-file/${nombreArchivo}`,
-      method: 'GET',
-      responseType: 'blob',
-    }).then((response) => {
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', nombreArchivo);
-
-      document.body.appendChild(link);
-      link.click();
-    });
-  };
 
   return (
     <>
