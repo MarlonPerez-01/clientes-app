@@ -60,6 +60,9 @@ git clone https://github.com/MarlonPerez-01/clientes-app.git
 * Ejecutar `npm run build` para generar la documentación en swagger.
 * La documentacion puede ser visualizada en [http://localhost:8080/api](http://localhost:8080/api)
 
+### Generar reporte de clientes en formato csv 
+* Ejecutar `node script.js` en la carpeta `backend` para generar reporte (tambien puede ser generado desde la interfaz de administración de clientes).
+
 ## Scripts
 
 ### Configuracion del frontend
