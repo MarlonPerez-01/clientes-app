@@ -72,9 +72,9 @@ git clone https://github.com/MarlonPerez-01/clientes-app.git
 
 ### Ejecutar frontend
 
-* Ejecutar `npm run start` para iniciar.
+* Ejecutar `npm start` para iniciar.
 
-Inicia la aplicacion en [http://localhost:8000](http://localhost:3000)
+Inicia la aplicacion en [http://localhost:3000](http://localhost:3000)
 
 
 ### Tecnologías
