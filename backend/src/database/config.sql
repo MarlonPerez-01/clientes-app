@@ -101,7 +101,7 @@ BEGIN
     IF OLD.primerNombre <> NEW.primerNombre THEN
         INSERT INTO auditoria (id_registro, nombre_tabla, nombre_campo, accion, valor_anterior, valor_nuevo,
                                fecha_actualizacion)
-        VALUES (NEW.id, 'cliente', 'primerNombre', 'actualizar', OLD.primerNombre, NEW.segundoNombre,
+        VALUES (NEW.id, 'cliente', 'primerNombre', 'actualizar', OLD.primerNombre, NEW.primerNombre,
                 CURRENT_TIMESTAMP);
     END IF;
 
@@ -152,5 +152,135 @@ BEGIN
         INSERT INTO auditoria (id_registro, nombre_tabla, nombre_campo, accion, valor_anterior, valor_nuevo,
                                fecha_actualizacion)
         VALUES (NEW.id, 'cliente', 'deletedAt', 'deshabilitar', OLD.deletedAt, NEW.deletedAt, CURRENT_TIMESTAMP);
+    END IF;
+END$$
+
+
+
+-- Trigger al insertar en tabla direccion
+CREATE TRIGGER direccion_insertar
+    AFTER INSERT
+    ON cliente
+    FOR EACH ROW
+
+BEGIN
+
+    INSERT INTO auditoria (id_registro, nombre_tabla, nombre_campo, accion, valor_anterior, valor_nuevo,
+                           fecha_actualizacion)
+    VALUES (NEW.id, 'direccion', 'id', 'insertar', NULL, NEW.id, CURRENT_TIMESTAMP);
+
+END$$
+
+
+-- Trigger al actualizar en tabla direccion
+DROP TRIGGER IF EXISTS direccion_actualizar;
+
+DELIMITER $$
+
+CREATE TRIGGER direccion_actualizar
+    AFTER UPDATE
+    ON direccion
+    FOR EACH ROW
+
+BEGIN
+    IF OLD.clienteId <> NEW.clienteId THEN
+        INSERT INTO auditoria (id_registro, nombre_tabla, nombre_campo, accion, valor_anterior, valor_nuevo,
+                               fecha_actualizacion)
+        VALUES (NEW.clienteId, 'direccion', 'clienteId', 'actualizar', OLD.clienteId, NEW.clienteId,
+                CURRENT_TIMESTAMP);
+    END IF;
+
+    IF OLD.departamento <> NEW.departamento THEN
+        INSERT INTO auditoria (id_registro, nombre_tabla, nombre_campo, accion, valor_anterior, valor_nuevo,
+                               fecha_actualizacion)
+        VALUES (NEW.id, 'direccion', 'departamento', 'actualizar', OLD.departamento, NEW.departamento,
+                CURRENT_TIMESTAMP);
+    END IF;
+
+
+    IF
+        OLD.municipio <> NEW.municipio THEN
+        INSERT INTO auditoria (id_registro, nombre_tabla, nombre_campo, accion, valor_anterior, valor_nuevo,
+                               fecha_actualizacion)
+        VALUES (NEW.id, 'direccion', 'municipio', 'actualizar', OLD.municipio, NEW.municipio,
+                CURRENT_TIMESTAMP);
+    END IF;
+
+
+    IF
+        OLD.detalles <> NEW.detalles THEN
+        INSERT INTO auditoria (id_registro, nombre_tabla, nombre_campo, accion, valor_anterior, valor_nuevo,
+                               fecha_actualizacion)
+        VALUES (NEW.id, 'direccion', 'detalles', 'actualizar', OLD.detalles, NEW.detalles,
+                CURRENT_TIMESTAMP);
+    END IF;
+
+
+    IF
+        OLD.createdAt <> NEW.createdAt THEN
+        INSERT INTO auditoria (id_registro, nombre_tabla, nombre_campo, accion, valor_anterior, valor_nuevo,
+                               fecha_actualizacion)
+        VALUES (NEW.id, 'direccion', 'createdAt', 'deshabilitar', OLD.createdAt, NEW.createdAt, CURRENT_TIMESTAMP);
+    END IF;
+
+END$$
+
+
+
+-- Trigger al insertar en tabla documento
+CREATE TRIGGER documento_insertar
+    AFTER INSERT
+    ON documento
+    FOR EACH ROW
+
+BEGIN
+
+    INSERT INTO auditoria (id_registro, nombre_tabla, nombre_campo, accion, valor_anterior, valor_nuevo,
+                           fecha_actualizacion)
+    VALUES (NEW.id, 'documento', 'id', 'insertar', NULL, NEW.id, CURRENT_TIMESTAMP);
+
+END$$
+
+
+-- Trigger al actualizar en tabla documento
+DROP TRIGGER IF EXISTS documento_actualizar;
+
+DELIMITER $$
+
+CREATE TRIGGER documento_actualizar
+    AFTER UPDATE
+    ON documento
+    FOR EACH ROW
+
+BEGIN
+    IF OLD.clienteId <> NEW.clienteId THEN
+        INSERT INTO auditoria (id_registro, nombre_tabla, nombre_campo, accion, valor_anterior, valor_nuevo,
+                               fecha_actualizacion)
+        VALUES (NEW.id, 'documento', 'clienteId', 'actualizar', OLD.clienteId, NEW.clienteId,
+                CURRENT_TIMESTAMP);
+    END IF;
+
+    IF OLD.nombre <> NEW.nombre THEN
+        INSERT INTO auditoria (id_registro, nombre_tabla, nombre_campo, accion, valor_anterior, valor_nuevo,
+                               fecha_actualizacion)
+        VALUES (NEW.id, 'documento', 'nombre', 'actualizar', OLD.nombre, NEW.nombre,
+                CURRENT_TIMESTAMP);
+    END IF;
+
+
+    IF
+        OLD.ruta <> NEW.ruta THEN
+        INSERT INTO auditoria (id_registro, nombre_tabla, nombre_campo, accion, valor_anterior, valor_nuevo,
+                               fecha_actualizacion)
+        VALUES (NEW.id, 'documento', 'ruta', 'actualizar', OLD.ruta, NEW.ruta,
+                CURRENT_TIMESTAMP);
+    END IF;
+
+
+    IF
+        OLD.deletedAt <> NEW.deletedAt THEN
+        INSERT INTO auditoria (id_registro, nombre_tabla, nombre_campo, accion, valor_anterior, valor_nuevo,
+                               fecha_actualizacion)
+        VALUES (NEW.id, 'documento', 'deletedAt', 'deshabilitar', OLD.deletedAt, NEW.deletedAt, CURRENT_TIMESTAMP);
     END IF;
 END$$
