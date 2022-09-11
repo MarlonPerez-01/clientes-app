@@ -56,6 +56,8 @@ git clone https://github.com/MarlonPerez-01/clientes-app.git
 
 * Ejecutar `npm run start:dev` para iniciar el servidor.
 
+Inicia el servidor en http://localhost:8080/api/v1
+
 ### Generar documentación
 * Ejecutar `npm run build` para generar la documentación en swagger.
 * La documentacion puede ser visualizada en [http://localhost:8080/api](http://localhost:8080/api)
