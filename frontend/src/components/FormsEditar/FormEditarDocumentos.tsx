@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import { Button, Col, Container, Row, Table } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useFieldArray, useForm } from 'react-hook-form';
-import { DocumentoContext } from '../../context/DocumentoContext';
 import { ClienteContext } from '../../context/ClienteContext';
 import { handleDescarga } from '../../helpers/handleDescarga';
 import { Documento } from '../../types/Documento';
@@ -112,7 +111,7 @@ export const FormEditarDocumentos = () => {
               })
             }
           >
-            Agregar Nuevo
+            Agregar nuevo documento
           </Button>
         </div>
       </Row>
